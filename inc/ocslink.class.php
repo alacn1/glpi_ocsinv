@@ -857,7 +857,9 @@ class PluginOcsinventoryngOcslink extends CommonDBTM {
     **/
    static function getHistoryEntry($data) {
 
-      if (Session::haveRight("plugin_ocsinventoryng", READ)) {
+      if (Session::haveRight("plugin_ocsinventoryng", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_sync", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_link", READ)) {
          switch ($data['linked_action'] - Log::HISTORY_PLUGIN) {
             case self::HISTORY_OCS_IMPORT :
                return sprintf(__('%1$s: %2$s'), __('Imported from OCSNG', 'ocsinventoryng'),
