@@ -848,6 +848,31 @@ class PluginOcsinventoryngOcsDbClient extends PluginOcsinventoryngOcsClient {
          $where_condition = "";
       }
 
+      $usertags = array();
+      if(!empty($_SESSION['glpiactiveentities']) && is_array($_SESSION['glpiactiveentities']))
+      {
+         foreach($_SESSION['glpiactiveentities'] as $entityid => $entityv)
+         {
+            $entity = new Entity();
+            if($entity->getFromDB($entityid))
+            {
+               if(!empty($entity->fields['tag']))
+                  $usertags[] = $entity->fields['tag'];
+            }
+         }
+      }
+      if(!empty($usertags))
+      {
+         $where_condition .=
+            " AND accountinfo.TAG IN (".
+            "'" . join('\',\'', $usertags) . "'".
+            ") ";
+      }
+      else
+      {
+         $where_condition .= " AND 0 "; // none
+      }
+
       if ($id > 0) {
          $query = 
             "SELECT count(DISTINCT `hardware`.`ID`) as total ".
@@ -991,6 +1016,34 @@ class PluginOcsinventoryngOcsDbClient extends PluginOcsinventoryngOcsClient {
                             $where_checksum . $where_since . $where_before;
       } else {
          $where_condition = "";
+      }
+
+      if((0 == $id) && (php_sapi_name() !== 'cli'))
+      {
+         $usertags = array();
+         if(!empty($_SESSION['glpiactiveentities']) && is_array($_SESSION['glpiactiveentities']))
+         {
+            foreach($_SESSION['glpiactiveentities'] as $entityid => $entityv)
+            {
+               $entity = new Entity();
+               if($entity->getFromDB($entityid))
+               {
+                  if(!empty($entity->fields['tag']))
+                     $usertags[] = $entity->fields['tag'];
+               }
+            }
+         }
+         if(!empty($usertags))
+         {
+            $where_condition .=
+               " AND accountinfo.TAG IN (".
+               "'" . join('\',\'', $usertags) . "'".
+               ") ";
+         }
+         else
+         {
+            $where_condition .= " AND 0 "; // none
+         }
       }
 
       if ($id > 0) {

@@ -226,6 +226,32 @@ class PluginOcsinventoryngIpdiscoverOcslink extends CommonDBTM {
                      ON (`networks`.`IPSUBNET` = `subnet`.`NETID`) ,`accountinfo`
                      WHERE `networks`.`HARDWARE_ID`=`accountinfo`.`HARDWARE_ID`
                      AND `networks`.`STATUS`='Up'";
+
+      $usertags = array();
+      if(!empty($_SESSION['glpiactiveentities']) && is_array($_SESSION['glpiactiveentities']))
+      {
+         foreach($_SESSION['glpiactiveentities'] as $entityid => $entityv)
+         {
+            $entity = new Entity();
+            if($entity->getFromDB($entityid))
+            {
+               if(!empty($entity->fields['tag']))
+                  $usertags[] = $entity->fields['tag'];
+            }
+         }
+      }
+      if(!empty($usertags))
+      {
+         $query .=
+            " AND subnet.ID IN (".
+            "'" . join('\',\'', $usertags) . "'".
+            ") ";
+      }
+      else
+      {
+         $query .= " AND 0 "; // none
+      }
+
       $ocsClient = new PluginOcsinventoryngOcsServer();
       $DBOCS     = $ocsClient->getDBocs($plugin_ocsinventoryng_ocsservers_id)->getDB();
       $result    = $DBOCS->query($query);
