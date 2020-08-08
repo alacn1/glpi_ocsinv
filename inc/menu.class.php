@@ -99,11 +99,9 @@ class PluginOcsinventoryngMenu extends CommonGLPI {
 
       if (Session::haveRight("plugin_ocsinventoryng_clean", UPDATE)
           || Session::haveRight("plugin_ocsinventoryng", UPDATE)) {
-         if (Session::haveRight("plugin_ocsinventoryng", UPDATE)) {
             // Deleted_equiv
             $menu['options']['deleted_equiv']['title'] = __s('Clean OCSNG deleted computers', 'ocsinventoryng');
             $menu['options']['deleted_equiv']['page']  = '/plugins/ocsinventoryng/front/deleted_equiv.php';
-         }
          // Clean
          $menu['options']['clean']['title'] = __s('Clean links between GLPI and OCSNG', 'ocsinventoryng');
          $menu['options']['clean']['page']  = '/plugins/ocsinventoryng/front/ocsng.clean.php';
@@ -166,7 +164,8 @@ class PluginOcsinventoryngMenu extends CommonGLPI {
                                                     ["is_active" => 1]);
             if (!empty($ocsServers)) {
 
-               $ong[0] = __('Server Setup', 'ocsinventoryng');
+               if(Session::haveRight("plugin_ocsinventoryng", READ))
+                  $ong[0] = __('Server Setup', 'ocsinventoryng');
 
                $ong[1] = __('Inventory Import', 'ocsinventoryng');
 
@@ -177,6 +176,7 @@ class PluginOcsinventoryngMenu extends CommonGLPI {
                      $client     = $ocsClient->getDBocs($_SESSION["plugin_ocsinventoryng_ocsservers_id"]);
                      $ipdiscover = $client->getIntConfig('IPDISCOVER');
                      if ($ipdiscover) {
+                       if(Session::haveRight("plugin_ocsinventoryng", UPDATE))
                         $ong[2] = __('IPDiscover Import', 'ocsinventoryng');
                      }
                   }

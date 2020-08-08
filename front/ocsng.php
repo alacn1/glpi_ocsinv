@@ -30,7 +30,9 @@
 include('../../../inc/includes.php');
 
 Session::checkSeveralRightsOr(["plugin_ocsinventoryng" => READ,
-   "plugin_ocsinventoryng_clean" => READ]);
+   "plugin_ocsinventoryng_clean" => READ,
+   "plugin_ocsinventoryng_sync" => READ,
+   "plugin_ocsinventoryng_import" => READ]);
 
 Html::header('OCS Inventory NG', '', "tools", "pluginocsinventoryngmenu", "ocsinventoryng");
 

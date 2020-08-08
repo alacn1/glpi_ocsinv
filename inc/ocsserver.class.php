@@ -419,7 +419,9 @@ class PluginOcsinventoryngOcsServer extends CommonDBTM {
          echo "</th></tr>";
       }
 
-      if (Session::haveRight("plugin_ocsinventoryng", READ)) {
+      if (Session::haveRight("plugin_ocsinventoryng_import", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_sync", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_link", READ)) {
          //config server
          if ($isactive) {
 
@@ -516,7 +518,6 @@ class PluginOcsinventoryngOcsServer extends CommonDBTM {
            || Session::haveRight(static::$rightname, UPDATE))
           && $isactive) {
          echo "<tr class='tab_bg_1'>";
-         if (Session::haveRight(static::$rightname, UPDATE)) {
             echo "<td class='center b' colspan='2'>";
 
             echo "<a href='" . $CFG_GLPI["root_doc"] . "/plugins/ocsinventoryng/front/deleted_equiv.php'>
@@ -533,9 +534,6 @@ class PluginOcsinventoryngOcsServer extends CommonDBTM {
             echo "<br><span style='color:grey'>" . __('Update ID of deleted computers of OCSNG', 'ocsinventoryng');
             echo "</span>";
             echo "</td>";
-         } else {
-            echo "<td colspan='2'></td>";
-         }
          echo "<td class='center b' colspan='2'>
                <a href='" . $CFG_GLPI["root_doc"] . "/plugins/ocsinventoryng/front/ocsng.clean.php'>
                <i style='color:steelblue' class='fas fa-trash fa-3x' 

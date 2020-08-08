@@ -157,7 +157,10 @@ function plugin_init_ocsinventoryng() {
    if (Session::getLoginUserID()) {
 
       // Display a menu entry ?
-      if (Session::haveRight("plugin_ocsinventoryng", READ)) {
+      if (Session::haveRight("plugin_ocsinventoryng", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_import", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_sync", READ) ||
+          Session::haveRight("plugin_ocsinventoryng_link", READ)) {
          $PLUGIN_HOOKS['menu_toadd']['ocsinventoryng'] = ['tools' => 'PluginOcsinventoryngMenu'];
       }
 
