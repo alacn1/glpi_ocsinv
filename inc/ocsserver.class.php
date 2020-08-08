@@ -2440,7 +2440,7 @@ JAVASCRIPT;
          $computerOptions['FILTER']['EXCLUDE_TAGS'] = $tag_exclude;
       }
       $ocsClient = self::getDBocs($plugin_ocsinventoryng_ocsservers_id);
-      $ocsResult = $ocsClient->getComputers($computerOptions);
+      $ocsResult = []; //$ocsClient->getComputers($computerOptions);
 
       $computers  = (isset($ocsResult['COMPUTERS']) ? $ocsResult['COMPUTERS'] : []);
       $hardware   = [];
