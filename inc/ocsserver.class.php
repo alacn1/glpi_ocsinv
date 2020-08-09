@@ -2177,6 +2177,7 @@ JAVASCRIPT;
                                INNER JOIN `glpi_computers` on `glpi_computers`.`id` = `glpi_plugin_ocsinventoryng_ocslinks`.`computers_id`
                                WHERE `glpi_plugin_ocsinventoryng_ocslinks`.`plugin_ocsinventoryng_ocsservers_id`
                                             = $plugin_ocsinventoryng_ocsservers_id".
+                                 " AND `glpi_plugin_ocsinventoryng_ocslinks`.`last_update` < date_sub(now(), interval 6 hour) ".
                                  (new DbUtils())->getEntitiesRestrictRequest(" AND", "glpi_plugin_ocsinventoryng_ocslinks");
       $already_linked_result = $DB->query($already_linked_query);
 
@@ -3165,7 +3166,8 @@ JAVASCRIPT;
             "SELECT `glpi_plugin_ocsinventoryng_ocslinks`.`ocsid` AS ocsid ".
             "FROM `glpi_plugin_ocsinventoryng_ocslinks` ".
             "INNER JOIN `glpi_computers` on `glpi_computers`.`id` = `glpi_plugin_ocsinventoryng_ocslinks`.`computers_id` ".
-            "WHERE `glpi_plugin_ocsinventoryng_ocslinks`.`plugin_ocsinventoryng_ocsservers_id` = $plugin_ocsinventoryng_ocsservers_id";
+            "WHERE `glpi_plugin_ocsinventoryng_ocslinks`.`plugin_ocsinventoryng_ocsservers_id` = $plugin_ocsinventoryng_ocsservers_id".
+               " AND `glpi_plugin_ocsinventoryng_ocslinks`.`last_update` < date_sub(now(), interval 6 hour) ";
          $already_linked_result = $DB->query($already_linked_query);
 
          $already_linked_ids = [];
