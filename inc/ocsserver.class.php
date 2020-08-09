@@ -1242,6 +1242,7 @@ JAVASCRIPT;
            "</td>\n<td>";
       Dropdown::showNumber('cron_sync_number', ['value' => $this->fields['cron_sync_number'],
                                                 'min'   => 1,
+                                                'max'   => 1000,
                                                 'toadd' => [0 => __('None')]]);
       echo "</td></tr>";
 
